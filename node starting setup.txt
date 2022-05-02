@@ -1,0 +1,233 @@
+  const express= require ('express');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
+  const app=express();
+ 
+app.get('', (req, resp) => {
+  resp.send( <h1>welcome, to home page</h1><a href="/about">go to about page</a> )
+});
+
+app.get('/about', (req, resp) => {
+  resp.send( <input type="text" placeholder="User name"/>
+  
+  <button>click me</button>
+  <a href="/ "> go to home page</a>
+  );
+     
+});
+
+
+
+
+
+
+
+<================Ram ji Coce start========>
+
+
+
+
+const express= require ('express');
+const req = require('express/lib/request');
+const res = require('express/lib/response');
+
+var app = express();
+
+app.get('/', function (req, res) {
+    res.send('Hello World');
+ })
+ 
+ var server = app.listen(3000, function () {
+    var host = server.address().address
+    var port = server.address().port
+    
+    console.log("Example app listening at http://localhost:"+port)
+ })
+ 
+ 
+ 
+ 
+ <================Ram ji Coce End========>
+ 
+ 
+ <====================template Engine start==========>
+ 
+ 
+ const { get } = require('lodash');
+const { test } = require('media-typer');
+const path = require('path');
+
+const app = express();
+const publicPath = path.join(__dirname, 'public');
+// app.use(express.static(publicPath));
+
+app.set('view engine','ejs');
+
+app.get('', (_, resp) => {
+  resp.sendFile(`${publicPath}/index.html`)
+})
+
+
+app.get('/profile', (_, resp) => {
+  const user={
+    name:'anil sidhu',
+    email:'anil@test.com',
+    city:'noida'
+  }
+  resp.render('profile',{user})
+})
+
+
+app.get('/about', (_, resp) => {
+  resp.sendFile(`${publicPath}/about.html`)
+})
+app.get('/help', (_, resp) => {
+  resp.sendFile(`${publicPath}/help.html`)
+})
+ 
+  <====================template Engine end==========>
+  
+  
+    <====================Middleware starting==========>
+  (index.js module)
+   example 1:
+   
+  const express = require('express');
+const app= express()
+app.get('/',(req,resp)=>{
+  resp.send('welcome to home page')
+})
+
+app.get('/users',(req,resp)=>{
+  resp.send('welcome to Users page')
+})
+ 
+ 
+example 2: middleware use in  same files or Application lavel middleware which is applicable for whole application/all routes
+
+const express = require('express');
+const app = express()
+
+const reqFilter = (req, resp, next) => {
+  if (!req.query.age) {
+    resp.send("plz provide  your age")
+  }
+  else if (req.query.age < 18) {
+    resp.send("you are under aged")
+
+  }
+  else
+{
+  next();
+}
+
+
+}
+app.use(reqFilter)
+
+app.get('/', (req, resp) => {
+  resp.send('welcome to home page')
+})
+
+app.get('/users', (req, resp) => {
+  resp.send('welcome to Users page')
+})
+
+
+
+
+
+ 
+
+
+app.listen(3000);
+
+
+Example 3:
+
+
+
+
+Route lavel middleware which is applicable for whole application as well as single routes/group of routes etc
+  
+  
+  
+  const express = require('express');
+const app = express()
+
+const reqFilter = (req, resp, next) => {
+  if (!req.query.age) {
+    resp.send("plz provide  your age")
+  }
+  else if (req.query.age < 18) {
+    resp.send("you are under aged")
+
+  }
+  else
+{
+  next();
+}
+
+
+}
+// app.use(reqFilter)
+
+app.get('/', (req, resp) => {
+  resp.send('welcome to home page')
+})
+
+app.get('/users',reqFilter, (req, resp) => {
+  resp.send('welcome to Users page')
+})
+
+
+
+
+
+app.listen(3000);
+
+example 4: index.js
+
+const express = require('express');
+const reqFiter = require('./middleware');
+const app = express();
+
+
+// app.use(reqFilter)
+
+app.get('/', (req, resp) => {
+  resp.send('welcome to home page')
+})
+
+app.get('/users', reqFilter, (req, resp) => {
+  resp.send('welcome to Users page')
+})
+
+
+example 4: middleware.js
+module.export= reqFilter = (req, resp, next) => {
+    if (!req.query.age) {
+      resp.send("plz provide  your age")
+    }
+    else if (req.query.age < 18) {
+      resp.send("you are under aged")
+  
+    }
+    else
+  {
+    next();
+  }
+  
+  
+  }
+
+
+app.listen(3000);
+
+
+
+  
+ <====================Middleware Ending==========>
+
+ 
+ 
